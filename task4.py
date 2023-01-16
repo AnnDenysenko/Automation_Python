@@ -1000,42 +1000,60 @@ plates_list = [
 # 1) first function
 # check compliance with the length
 
+
 def value_length(plate_number):
     return len(plate_number)
 
 
-
 # return 6 values of the entered value
 
-def entered_six_values(plate_number):
-    count_digits = 0
-    count_letters = 0
-    for character in plate_number[0:6]:
+
+def plate_number_to_six(plate_number):
+    result = []
+    memory = ""
+    for character in plate_number:
         if character.isdigit():
-            count_digits += 1
+            if memory:
+                result.append(memory)
+                memory = ""
+            result.append(int(character))
         else:
-            count_letters += 1
+            memory += character
+    if memory:
+        result.append(memory)
 
-    if count_digits == 4 and count_letters == 2:
-        return True
-    return False
-
+    return result
 
 
 # total amount of characters equals 8
 
+
 def lucky_eight(plate_number):
     return len(plate_number) == 8
 
+
+def first_function(plate_number):
+    return (
+        value_length(plate_number),
+        plate_number_to_six(plate_number),
+        lucky_eight(plate_number),
+    )
+
+
 plate_number = input("Car's plate number - ")
-print(value_length(plate_number))
-print(entered_six_values(plate_number))
-print(lucky_eight(plate_number))
+
+value_length_result, plate_number_to_six_result, lucky_eight_result = first_function(plate_number)
+
+print('First function')
+print(f"Characters count - {value_length_result}")
+print('6 characters from plate number -', *plate_number_to_six_result)
+print(f"Is lucky eight - {lucky_eight_result}")
 
 
 # 2) second function
 
 # function to calculate sum inside the sequence
+
 
 def sum_of_digits(plates_list):
     count_digits = 0
@@ -1045,5 +1063,7 @@ def sum_of_digits(plates_list):
                 count_digits += int(char)
     return count_digits
 
+
 result = sum_of_digits(plates_list)
-print(result)
+print('Second function')
+print(f"Sum of the numbers inside the sequence - {result}")
